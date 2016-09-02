@@ -778,6 +778,8 @@ func (n *Expression) eval(lx *lexer) (interface{}, Type) {
 			n.Value = -x
 		case int64:
 			n.Value = -x
+		case float32:
+			n.Value = -x
 		case float64:
 			n.Value = -x
 		default:
