@@ -29,6 +29,7 @@ import (
 	"go/token"
 	"os"
 	"os/exec"
+	"runtime"
 	"strings"
 
 	"github.com/cznic/golex/lex"
