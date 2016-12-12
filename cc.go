@@ -454,6 +454,7 @@ func Parse(predefine string, paths []string, m *Model, opts ...Opt) (*Translatio
 	for _, opt := range opts {
 		opt(lx0)
 	}
+	m.tweaks = lx0.tweaks
 	if err := report.Errors(true); err != nil {
 		return nil, err
 	}

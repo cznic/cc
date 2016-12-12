@@ -1068,7 +1068,7 @@ Enumerator:
 			v = m.MustConvert(0, m.IntType)
 		default:
 			var ok bool
-			if v, ok = m.enumValueToInt(e.Value, lx.tweaks); !ok {
+			if v, ok = m.enumValueToInt(e.Value); !ok {
 				lx.report.Err(e.Pos(), "overflow in enumeration value: %v", e.Value)
 			}
 		}

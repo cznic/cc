@@ -95,6 +95,7 @@ type Model struct {
 	strType        Type
 
 	initialized bool
+	tweaks      *tweaks
 }
 
 func (m *Model) initialize(lx *lexer) {
@@ -158,9 +159,9 @@ func (m *Model) typ(k Kind) Type {
 	}
 }
 
-func (m *Model) enumValueToInt(v interface{}, t *tweaks) (interface{}, bool) {
+func (m *Model) enumValueToInt(v interface{}) (interface{}, bool) {
 	intSize := m.Items[Int].Size
-	if t.enableWideEnumValues {
+	if m.tweaks.enableWideEnumValues {
 		intSize = m.Items[LongLong].Size
 	}
 	switch x := v.(type) {
