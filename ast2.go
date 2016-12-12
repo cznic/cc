@@ -2105,6 +2105,10 @@ func (n *StructDeclarator) post(lx *lexer) {
 		sc.prevStructDeclarator = n.Declarator
 	case 1: // DeclaratorOpt ':' ConstantExpression
 		t := lx.model.IntType
+		if o := n.DeclaratorOpt; o != nil {
+			t = o.Declarator.Type
+		}
+
 		var w int
 		switch x := n.ConstantExpression.Value.(type) {
 		case int32:
@@ -2136,6 +2140,13 @@ func (n *StructDeclarator) post(lx *lexer) {
 			switch t.Kind() {
 			case Char, SChar, UChar, Int, UInt, Long, ULong, Short, UShort, Enum, Bool:
 				// ok
+			case LongLong, ULongLong:
+				if lx.tweaks.enableWideBitFieldTypes {
+					// Non-standard, but enabled.
+					break
+				}
+				lx.report.Err(n.ConstantExpression.Pos(), "bit field has invalid type (have %s)", t)
+				t = lx.model.IntType
 			default:
 				lx.report.Err(n.ConstantExpression.Pos(), "bit field has invalid type (have %s)", t)
 				t = lx.model.IntType

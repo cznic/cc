@@ -146,6 +146,7 @@ type tweaks struct {
 	enableDlrInIdentifiers         bool              // foo$bar
 	enableEmptyDefine              bool              // #define
 	enableIncludeNext              bool              //
+	enableWideBitFieldTypes        bool              // long long v : 2;
 	enableNoreturn                 bool              //
 	enableStaticAssert             bool              // _Static_assert
 	enableTrigraphs                bool              // ??=define foo(bar)
@@ -351,6 +352,14 @@ func EnableUndefExtraTokens() Opt {
 //	enum { v = X }; for X wider than 32 bits.
 func EnableWideEnumValues() Opt {
 	return func(l *lexer) { l.tweaks.enableWideEnumValues = true }
+}
+
+// EnableWideBitFieldTypes makes the parser accept non standard bitfield
+// types (i.e, long long and unsigned long long).
+//
+//	unsigned long long bits : 2;
+func EnableWideBitFieldTypes() Opt {
+	return func(l *lexer) { l.tweaks.enableWideBitFieldTypes = true }
 }
 
 // SysIncludePaths option configures where to search for system include files

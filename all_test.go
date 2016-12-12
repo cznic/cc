@@ -2754,3 +2754,13 @@ func TestIssue72(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+// https://github.com/cznic/cc/issues/74
+func TestIssue74EnableWideBitFieldTypes(t *testing.T) {
+	if _, err := Parse(
+		"", []string{"testdata/issue74.h"}, newTestModel(),
+		EnableWideBitFieldTypes(),
+	); err != nil {
+		t.Fatal(err)
+	}
+}
