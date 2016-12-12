@@ -2747,7 +2747,10 @@ func TestIssue69(t *testing.T) {
 
 // https://github.com/cznic/cc/issues/72
 func TestIssue72(t *testing.T) {
-	if _, err := Parse("", []string{"testdata/issue72.h"}, newTestModel()); err != nil {
+	if _, err := Parse(
+		"", []string{"testdata/issue72.h"}, newTestModel(),
+		EnableWideEnumValues(),
+	); err != nil {
 		t.Fatal(err)
 	}
 }

@@ -158,36 +158,40 @@ func (m *Model) typ(k Kind) Type {
 	}
 }
 
-func (m *Model) toInt(v interface{}) (interface{}, bool) {
+func (m *Model) enumValueToInt(v interface{}, t *tweaks) (interface{}, bool) {
+	intSize := m.Items[Int].Size
+	if t.enableWideEnumValues {
+		intSize = m.Items[LongLong].Size
+	}
 	switch x := v.(type) {
 	case byte, int8, int16, uint16, int32:
 		return m.MustConvert(x, m.IntType), true
 	case uint32:
-		switch sz := m.Items[Int].Size; sz {
+		switch intSize {
 		case 4:
 			return m.MustConvert(x, m.IntType), x <= math.MaxUint32
 		case 8:
 			return m.MustConvert(x, m.IntType), true
 		default:
-			panic(sz)
+			panic(intSize)
 		}
 	case int64:
-		switch sz := m.Items[Int].Size; sz {
+		switch intSize {
 		case 4:
 			return m.MustConvert(x, m.IntType), x <= math.MaxUint32
 		case 8:
 			return m.MustConvert(x, m.IntType), true
 		default:
-			panic(sz)
+			panic(intSize)
 		}
 	case uint64:
-		switch sz := m.Items[Int].Size; sz {
+		switch intSize {
 		case 4:
 			return m.MustConvert(x, m.IntType), x <= math.MaxUint32
 		case 8:
 			return m.MustConvert(x, m.IntType), x <= math.MaxUint64
 		default:
-			panic(sz)
+			panic(intSize)
 		}
 	default:
 		panic(fmt.Errorf("%T", x))

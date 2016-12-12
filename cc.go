@@ -152,6 +152,7 @@ type tweaks struct {
 	enableTypeof                   bool              //
 	enableUndefExtraTokens         bool              // #undef foo(bar)
 	enableWarnings                 bool              // #warning
+	enableWideEnumValues           bool              // enum { v = X } for X wider than 32bits
 	gccEmu                         bool              //
 	preprocessOnly                 bool              //
 }
@@ -342,6 +343,13 @@ func EnableEmptyDefine() Opt {
 //	#undef foo(bar)
 func EnableUndefExtraTokens() Opt {
 	return func(l *lexer) { l.tweaks.enableUndefExtraTokens = true }
+}
+
+// EnableWideEnumValues makes the parser accept non standard
+//
+//	enum { v = X }; for X wider than 32 bits.
+func EnableWideEnumValues() Opt {
+	return func(l *lexer) { l.tweaks.enableWideEnumValues = true }
 }
 
 // SysIncludePaths option configures where to search for system include files
