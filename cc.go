@@ -30,6 +30,7 @@ import (
 	"go/token"
 	"os"
 	"os/exec"
+	"runtime"
 	"strings"
 
 	"github.com/cznic/golex/lex"
@@ -197,19 +198,25 @@ func HostConfig(opts ...string) (predefined string, includePaths, sysIncludePath
 // Execution of HostConfig is not free, so caching the results is recommended
 // whenever possible.
 func HostCppConfig(cpp string, opts ...string) (predefined string, includePaths, sysIncludePaths []string, err error) {
-	args := append(append([]string{"-dM"}, opts...), "/dev/null")
+	osNullPath := "/dev/null"
+	osNewLine := "\n"
+	if runtime.GOOS == "windows" {
+		osNullPath = "nul"
+		osNewLine = "\r\n"
+	}
+	args := append(append([]string{"-dM"}, opts...), osNullPath)
 	pre, err := exec.Command(cpp, args...).Output()
 	if err != nil {
 		return "", nil, nil, err
 	}
 
-	args = append(append([]string{"-v"}, opts...), "/dev/null")
+	args = append(append([]string{"-v"}, opts...), osNullPath)
 	out, err := exec.Command(cpp, args...).CombinedOutput()
 	if err != nil {
 		return "", nil, nil, err
 	}
 
-	a := strings.Split(string(out), "\n")
+	a := strings.Split(string(out), osNewLine)
 	for i := 0; i < len(a); {
 		switch a[i] {
 		case "#include \"...\" search starts here:":
