@@ -26,6 +26,32 @@ type ModelItem struct {
 // or according to the environment variables GOOS and GOARCH, if set.
 func NewModel() (m Model, err error) {
 	switch arch := env("GOARCH", runtime.GOARCH); arch {
+	case "arm":
+		return Model{
+			Bool:      {1, 1, 1},
+			Char:      {1, 1, 1},
+			Int:       {4, 4, 4},
+			Long:      {4, 4, 4},
+			LongLong:  {8, 4, 4},
+			SChar:     {1, 1, 1},
+			Short:     {2, 2, 2},
+			UChar:     {1, 1, 1},
+			UInt:      {4, 4, 4},
+			ULong:     {4, 4, 4},
+			ULongLong: {8, 4, 4},
+			UShort:    {2, 2, 2},
+
+			Float:      {4, 4, 4},
+			Double:     {8, 4, 4},
+			LongDouble: {8, 4, 4},
+
+			FloatComplex:      {8, 4, 4},
+			DoubleComplex:     {16, 4, 4},
+			LongDoubleComplex: {16, 4, 4},
+
+			Void: {1, 1, 1},
+			Ptr:  {4, 4, 4},
+		}, nil
 	case "386":
 		return Model{
 			Bool:      {1, 1, 1},

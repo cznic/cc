@@ -34,6 +34,7 @@ edit:
 
 editor: ast.go parser.go scanner.go trigraphs.go stringer.go
 	gofmt -l -s -w *.go
+	GOOS=linux GOARCH=arm go build
 	GOOS=linux GOARCH=386 go build
 	GOOS=linux GOARCH=amd64 go build
 	GOOS=windows GOARCH=386 go build
