@@ -6,7 +6,17 @@ Installation
 
     $ go get github.com/cznic/cc
 
+
 Documentation: [godoc.org/github.com/cznic/cc](http://godoc.org/github.com/cznic/cc)
+
+
+Building with `make` requires indent(1) and the following Go packages
+
+* github.com/golang/lint/golint
+* github.com/mdempsky/maligned
+* github.com/mdempsky/unconvert
+* honnef.co/go/tools/cmd/unused
+
 
 Changelog
 
